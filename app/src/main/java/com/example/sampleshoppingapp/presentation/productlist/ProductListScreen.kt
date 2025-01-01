@@ -18,8 +18,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.sampleshoppingapp.presentation.screens.component.ListItem
-import com.example.sampleshoppingapp.presentation.viewmodel.ProductListVewModel
+import com.example.sampleshoppingapp.presentation.productlist.component.ListItem
+import com.example.sampleshoppingapp.presentation.productlist.ProductListVewModel
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable

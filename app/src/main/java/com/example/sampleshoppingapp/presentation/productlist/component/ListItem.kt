@@ -1,4 +1,4 @@
-package com.example.sampleshoppingapp.presentation.screens.component
+package com.example.sampleshoppingapp.presentation.productlist.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

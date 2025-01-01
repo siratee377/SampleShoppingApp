@@ -1,10 +1,9 @@
-package com.example.sampleshoppingapp.presentation.viewmodel
+package com.example.sampleshoppingapp.presentation.productlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sampleshoppingapp.core.common.UiState
 import com.example.sampleshoppingapp.domain.usecase.GetProductListUseCase
-import com.example.sampleshoppingapp.presentation.state.ProductListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

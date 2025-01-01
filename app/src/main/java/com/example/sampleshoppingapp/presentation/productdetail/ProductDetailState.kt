@@ -1,4 +1,4 @@
-package com.example.sampleshoppingapp.presentation.state
+package com.example.sampleshoppingapp.presentation.productdetail
 
 import com.example.sampleshoppingapp.domain.model.ProductItem
 
