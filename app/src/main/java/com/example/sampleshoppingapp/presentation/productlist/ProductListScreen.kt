@@ -4,10 +4,12 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,36 +25,44 @@ import com.example.sampleshoppingapp.presentation.productlist.ProductListVewMode
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun ListingScreen (
-    viewModel : ProductListVewModel = hiltViewModel()
-){
-    val context  = LocalContext.current
+fun ListingScreen(
+    viewModel: ProductListVewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
     val result by viewModel.productList.collectAsState()
 
-    if(result.isLoading){
-        Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
+    if (result.isLoading) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             CircularProgressIndicator(modifier = Modifier.size(50.dp))
         }
     }
 
-    result.data?.let {
-        Column(modifier = Modifier.fillMaxSize()) {
-            LazyColumn {
-                items(it){ item->
-                    ListItem(item){product->
-                        Toast.makeText(context,product.title,Toast.LENGTH_SHORT).show()
+    result.data?.let { data ->
+        Scaffold(
+            modifier = Modifier.fillMaxSize()
+        ) { padding ->
+            Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+                LazyColumn {
+                    items(data) { item ->
+                        ListItem(item) { product ->
+                            Toast.makeText(context, product.title, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
         }
     }
 
-    if(result.error.isNotEmpty()){
-        Column(modifier = Modifier.fillMaxSize(),
+    if (result.error.isNotEmpty()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center) {
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(text = result.error.toString())
         }
     }
