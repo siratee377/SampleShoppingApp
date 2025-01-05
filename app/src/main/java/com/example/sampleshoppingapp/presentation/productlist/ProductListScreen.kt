@@ -1,4 +1,4 @@
-package com.example.composepoc.screens
+package com.example.sampleshoppingapp.presentation.productlist
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -17,16 +17,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.sampleshoppingapp.ProductDetailModel
 import com.example.sampleshoppingapp.presentation.productlist.component.ListItem
-import com.example.sampleshoppingapp.presentation.productlist.ProductListVewModel
 
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun ListingScreen(
-    viewModel: ProductListVewModel = hiltViewModel()
+    viewModel: ProductListVewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val context = LocalContext.current
     val result by viewModel.productList.collectAsState()
@@ -45,10 +45,17 @@ fun ListingScreen(
         Scaffold(
             modifier = Modifier.fillMaxSize()
         ) { padding ->
-            Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)) {
                 LazyColumn {
                     items(data) { item ->
                         ListItem(item) { product ->
+                            navController.navigate(
+                                ProductDetailModel(
+                                    id = product.id
+                                )
+                            )
                             Toast.makeText(context, product.title, Toast.LENGTH_SHORT).show()
                         }
                     }

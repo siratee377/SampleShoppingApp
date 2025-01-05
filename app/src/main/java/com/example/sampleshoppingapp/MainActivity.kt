@@ -3,19 +3,15 @@ package com.example.sampleshoppingapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.composepoc.screens.ListingScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.sampleshoppingapp.presentation.productlist.ListingScreen
 import com.example.sampleshoppingapp.dls.theme.SampleShoppingAppTheme
+import com.example.sampleshoppingapp.presentation.productdetail.ProductDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -23,22 +19,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SampleShoppingAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = ListingModel
                 ) {
-                    ListingScreen()
+                    composable<ListingModel> {
+                        ListingScreen(navController = navController)
+                    }
+                    composable<ProductDetailModel> {
+                        val args = it.toRoute<ProductDetailModel>()
+                        ProductDetailScreen(
+                            id = args.id
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+@Serializable
+object ListingModel
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SampleShoppingAppTheme {
-        ListingScreen()
-    }
-}
+@Serializable
+data class ProductDetailModel(
+    val id: Int
+)
