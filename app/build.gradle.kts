@@ -56,16 +56,23 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.gson)
     implementation(libs.hilt.navigation)
-    kapt(libs.hilt.android.complier)
-    kapt(libs.hilt.complier)
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+
+    kapt(libs.hilt.android.complier)
+    kapt(libs.hilt.complier)
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation(libs.chucker.library)
+
+    releaseImplementation(libs.chucker.library.no.op)
 }

@@ -1,5 +1,7 @@
 package com.example.sampleshoppingapp.data.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.sampleshoppingapp.data.network.ApiService
 import com.example.sampleshoppingapp.data.repository.RepositoryImpl
 import com.example.sampleshoppingapp.domain.repository.Repository
@@ -7,7 +9,9 @@ import com.example.sampleshoppingapp.utils.Constant.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -19,22 +23,39 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providerRetrofit() : Retrofit {
+    fun provideChuckerInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
+        return ChuckerInterceptor.Builder(context)
+            .maxContentLength(250_000L)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(chuckerInterceptor: ChuckerInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(chuckerInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     @Provides
     @Singleton
-    fun providerApiService(retrofit: Retrofit) : ApiService {
+    fun provideApiService(retrofit: Retrofit) : ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun providerRepositoryImpl(apiService: ApiService) : Repository {
+    fun provideRepositoryImpl(apiService: ApiService) : Repository {
         return RepositoryImpl(apiService)
     }
 
