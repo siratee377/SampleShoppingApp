@@ -31,7 +31,8 @@ class MainActivity : ComponentActivity() {
                     composable<ProductDetailModel> {
                         val args = it.toRoute<ProductDetailModel>()
                         ProductDetailScreen(
-                            id = args.id
+                            id = args.id,
+                            navController = navController
                         )
                     }
                 }
