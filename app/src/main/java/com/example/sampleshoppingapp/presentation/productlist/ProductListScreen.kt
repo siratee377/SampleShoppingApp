@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.sampleshoppingapp.ProductDetailModel
+import com.example.sampleshoppingapp.navigation.Destination
 import com.example.sampleshoppingapp.presentation.productlist.component.ListItem
 
 @Composable
@@ -52,7 +52,7 @@ fun ListingScreen(
                     items(data) { item ->
                         ListItem(item) { product ->
                             navController.navigate(
-                                ProductDetailModel(
+                                Destination.ProductDetailModel(
                                     id = product.id
                                 )
                             )
